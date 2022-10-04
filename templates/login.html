@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <title>Health Care - Login</title>
+
+    <script>
+        window.onload = function(){
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+              get: (searchParams, prop) => searchParams.get(prop),
+            });
+            let message = params.message;
+            console.log(message);
+            var div = document.getElementById("div_message");
+            console.log(div);
+            div.innerHTML = message;
+        }
+    </script>
+</head>
+<body>
+<h1>Health Care - Login</h1>
+
+<p id="div_message" style="text-align: center; font-size: 20px; color: blue">
+</p>
+
+<form action="login" method="post" style="padding: 20px">
+    <label>Email</label>
+    <input type="email" name="email" />
+    <br /><br />
+
+    <label>Password</label>
+    <input type="password" name="password" />
+    <br /><br />
+
+    <label>Remember Me</label>
+    <input type="checkbox" name="rememberme" />
+    <br /><br />
+
+    <input type="submit" name="Submit" value="Login" onclick="submit()" />
+</form>
+<a href="/register">Register New User</a>
+
+</body>
+</html>
