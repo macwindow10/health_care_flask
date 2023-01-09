@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
-    <title>Web Flask - Register</title>
+    <title>Health Care - Register</title>
     <script>
         function validateForm() {
           let email = document.forms["myForm"]["email"].value;
@@ -24,63 +26,81 @@
             return false;
         }
 
+
+
+
     </script>
 </head>
 <body>
-<h1>Health Care - Register New User</h1>
 
-<br/>
+<div class="jumbotron">
+    <h1>Health Care - Register New User</h1>
+</div>
+
 <form name="myForm" action="register" method="post" style="padding: 20px"
       onsubmit="return validateForm()">
-    <label>Email</label>
-    <input type="email" name="email"/>
-    <br/><br/>
 
-    <label>Password</label>
-    <input type="password" name="password"/>
-    <br/><br/>
+    <div class="container-fluid">
 
-    <label>First Name</label>
-    <input type="text" name="fname"/>
-    <br/><br/>
+        <div class="form-group">
+            <select class="form-control">
+                <option>Patient</option>
+                <option>Doctor</option>
+            </select>
+        </div>
 
-    <label>Middle Name</label>
-    <input type="text" name="mname"/>
-    <br/><br/>
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-control" type="email" name="email"/>
+        </div>
 
-    <label>Last Name</label>
-    <input type="text" name="lname"/>
-    <br/><br/>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input class="form-control" type="password" name="password"/>
+        </div>
 
-    <label>CNIC</label>
-    <input type="text" name="cnic"/>
-    <br/><br/>
+        <label>First Name</label>
+        <input type="text" name="fname"/>
+        <br/><br/>
 
-    <label>Postal Code</label>
-    <input type="number" name="postal_code"/>
-    <br/><br/>
+        <label>Middle Name</label>
+        <input type="text" name="mname"/>
+        <br/><br/>
 
-    <label>Father Name</label>
-    <input type="text" name="father_name"/>
-    <br/><br/>
+        <label>Last Name</label>
+        <input type="text" name="lname"/>
+        <br/><br/>
 
-    <label>Blood Group</label>
-    <input type="text" name="blood_group"/>
-    <br/><br/>
+        <label>CNIC</label>
+        <input type="text" name="cnic"/>
+        <br/><br/>
 
-    <label>Gender</label>
-    <input type="text" name="gender"/>
-    <br/><br/>
+        <label>Postal Code</label>
+        <input type="number" name="postal_code"/>
+        <br/><br/>
 
-    <label>Emergency Mobile</label>
-    <input type="text" name="emergency_mobile"/>
-    <br/><br/>
+        <label>Father Name</label>
+        <input type="text" name="father_name"/>
+        <br/><br/>
 
-    <label>Payment Mode</label>
-    <input type="text" name="payment_mode"/>
-    <br/><br/>
+        <label>Blood Group</label>
+        <input type="text" name="blood_group"/>
+        <br/><br/>
 
-    <input type="submit" name="Submit" value="Submit" />
+        <label>Gender</label>
+        <input type="text" name="gender"/>
+        <br/><br/>
+
+        <label>Emergency Mobile</label>
+        <input type="text" name="emergency_mobile"/>
+        <br/><br/>
+
+        <label>Payment Mode</label>
+        <input type="text" name="payment_mode"/>
+        <br/><br/>
+
+        <input type="submit" name="Submit" value="Submit"/>
+    </div>
 
 </form>
 <button onclick="reset()">Reset</button>
