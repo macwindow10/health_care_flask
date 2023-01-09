@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    role TEXT NULL,
+    role TEXT NOT NULL,
     fname TEXT NULL,
     mname TEXT NULL,
     lname TEXT NULL,
@@ -12,8 +12,10 @@ CREATE TABLE users (
     cnic TEXT NULL,
     postal_code TEXT NULL,
     father_name TEXT NULL,
-    blood_group TEXT NULL,
     gender TEXT NULL,
+    blood_group TEXT NULL,
     emergency_mobile TEXT NULL,
-    payment_mode TEXT NULL
+    payment_mode TEXT NULL,
+    qualification TEXT NULL,
+    expertise TEXT NULL
 );

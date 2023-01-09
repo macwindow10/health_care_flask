@@ -29,7 +29,7 @@
         function onrolechange(selectedRole) {
             console.log('onrolechange');
             console.log(selectedRole.value);
-            if (selectedRole.value === 'DOCTOR') {
+            if (selectedRole.value === 'Doctor') {
                 $('#divPatient').hide();
                 $('#divDoctor').show();
             } else {
@@ -37,7 +37,6 @@
                 $('#divPatient').show();
             }
         }
-
     </script>
 </head>
 <body>
@@ -53,8 +52,8 @@
 
         <div class="form-group">
             <select class="form-control" id="role" name="role" onchange="onrolechange(this)">
-                <option selected value="PATIENT">Patient</option>
-                <option value="DOCTOR">Doctor</option>
+                <option selected value="Patient">Patient</option>
+                <option value="Doctor">Doctor</option>
             </select>
         </div>
 
@@ -101,8 +100,8 @@
         <div class="form-group">
             <label class="form-label">Gender</label>
             <select class="form-control" name="gender">
-                <option value="MALE">MALE</option>
-                <option selected value="FEMALE">FEMALE</option>
+                <option value="Male">Male</option>
+                <option selected value="Female">Female</option>
             </select>
         </div>
 
@@ -147,8 +146,8 @@
             <input class="btn btn-primary" type="submit" name="Submit" value="Submit"/>
         </div>
     </div>
-
 </form>
+
 <button class="btn btn-secondary" onclick="reset()">Reset</button>
 
 </body>
