@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
     <title>Health Care - Register</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
         function validateForm() {
           let email = document.forms["myForm"]["email"].value;
@@ -26,8 +26,17 @@
             return false;
         }
 
-
-
+        function onrolechange(selectedRole) {
+            console.log('onrolechange');
+            console.log(selectedRole.value);
+            if (selectedRole.value === 'DOCTOR') {
+                $('#divPatient').hide();
+                $('#divDoctor').show();
+            } else {
+                $('#divDoctor').hide();
+                $('#divPatient').show();
+            }
+        }
 
     </script>
 </head>
@@ -43,9 +52,9 @@
     <div class="container-fluid">
 
         <div class="form-group">
-            <select class="form-control">
-                <option>Patient</option>
-                <option>Doctor</option>
+            <select class="form-control" id="role" name="role" onchange="onrolechange(this)">
+                <option selected value="PATIENT">Patient</option>
+                <option value="DOCTOR">Doctor</option>
             </select>
         </div>
 
@@ -59,51 +68,88 @@
             <input class="form-control" type="password" name="password"/>
         </div>
 
-        <label>First Name</label>
-        <input type="text" name="fname"/>
-        <br/><br/>
+        <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-control" type="text" name="fname"/>
+        </div>
 
-        <label>Middle Name</label>
-        <input type="text" name="mname"/>
-        <br/><br/>
+        <div class="form-group">
+            <label class="form-label">Middle Name</label>
+            <input class="form-control" type="text" name="mname"/>
+        </div>
 
-        <label>Last Name</label>
-        <input type="text" name="lname"/>
-        <br/><br/>
+        <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-control" type="text" name="lname"/>
+        </div>
 
-        <label>CNIC</label>
-        <input type="text" name="cnic"/>
-        <br/><br/>
+        <div class="form-group">
+            <label class="form-label">CNIC</label>
+            <input class="form-control" type="text" name="cnic"/>
+        </div>
 
-        <label>Postal Code</label>
-        <input type="number" name="postal_code"/>
-        <br/><br/>
+        <div class="form-group">
+            <label class="form-label">Postal Code</label>
+            <input class="form-control" type="number" name="postal_code"/>
+        </div>
 
-        <label>Father Name</label>
-        <input type="text" name="father_name"/>
-        <br/><br/>
+        <div class="form-group">
+            <label class="form-label">Father Name</label>
+            <input class="form-control" type="text" name="father_name"/>
+        </div>
 
-        <label>Blood Group</label>
-        <input type="text" name="blood_group"/>
-        <br/><br/>
+        <div class="form-group">
+            <label class="form-label">Gender</label>
+            <select class="form-control" name="gender">
+                <option value="MALE">MALE</option>
+                <option selected value="FEMALE">FEMALE</option>
+            </select>
+        </div>
 
-        <label>Gender</label>
-        <input type="text" name="gender"/>
-        <br/><br/>
+        <div id="divPatient">
+            <div class="form-group">
+                <label class="form-label">Blood Group</label>
+                <input class="form-control" type="text" name="blood_group"/>
+            </div>
 
-        <label>Emergency Mobile</label>
-        <input type="text" name="emergency_mobile"/>
-        <br/><br/>
+            <div class="form-group">
+                <label class="form-label">Emergency Mobile</label>
+                <input class="form-control" type="text" name="emergency_mobile"/>
+            </div>
 
-        <label>Payment Mode</label>
-        <input type="text" name="payment_mode"/>
-        <br/><br/>
+            <div class="form-group">
+                <label class="form-label">Payment Mode</label>
+                <input class="form-control" type="text" name="payment_mode"/>
+            </div>
+        </div>
 
-        <input type="submit" name="Submit" value="Submit"/>
+        <div id="divDoctor" style="display: none">
+            <div class="form-group">
+                <label class="form-label">Qualification</label>
+                <input class="form-control" type="text" name="qualification"/>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Area of Expertise</label>
+                <select class="form-control" id="expertise" name="expertise">
+                    <option selected value="MedicalSpecialist">Medical Specialist</option>
+                    <option value="Cardiologists">Cardiologists</option>
+                    <option value="Dermatologists">Dermatologists</option>
+                    <option value="ENT">ENT</option>
+                    <option value="Gastroenterologists">Gastroenterologists</option>
+                    <option value="Gynecologists">Gynecologists</option>
+                    <option value="Pediatricians">Pediatricians</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" name="Submit" value="Submit"/>
+        </div>
     </div>
 
 </form>
-<button onclick="reset()">Reset</button>
+<button class="btn btn-secondary" onclick="reset()">Reset</button>
 
 </body>
 </html>
