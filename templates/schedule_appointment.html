@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <title>Health Care - Register</title>
+    <script src="static/js/jquery-3.2.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            document.getElementById('appointment_date').valueAsDate = new Date();
+        });
+
+        function validateForm() {
+
+        }
+
+        function reset() {
+            alert('reset');
+            console.log('reset');
+            return false;
+        }
+    </script>
+</head>
+<body>
+
+<div class="jumbotron">
+    <h1>Health Care - Schedule Appointment</h1>
+</div>
+
+<form name="myForm" action="schedule_appointment" method="post" style="padding: 20px"
+      onsubmit="return validateForm()">
+
+    <div class="container-fluid">
+
+        <div class="form-group">
+            {{ doctor["fname"] + " " + doctor["mname"] + " " + doctor["lname"]}}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Appointment Date</label>
+            <input class="form-control" type="date" id="appointment_date" name="appointment_date"/>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Appointment Time</label>
+            <select class="form-control" id="appointment_time" name="appointment_time">
+                {% for time_slot in time_slots %}
+                <option value="{{ time_slot }}">{{ time_slot }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <input type="hidden" id="doctor_id" name="doctor_id" value='{{ doctor["id"] }}'/>
+
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" name="Submit" value="Submit"/>
+        </div>
+    </div>
+</form>
+
+<button class="btn btn-secondary" onclick="reset()">Reset</button>
+
+</body>
+</html>

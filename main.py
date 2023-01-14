@@ -4,6 +4,28 @@ import sqlite3
 
 app = Flask(__name__)
 
+time_slots = [
+    ["09:00 - 09:20"],
+    ["09:20 - 09:40"],
+    ["09:40 - 10:00"],
+
+    ["10:00 - 10:20"],
+    ["10:20 - 10:40"],
+    ["10:40 - 11:00"],
+
+    ["11:00 - 11:20"],
+    ["11:20 - 11:40"],
+    ["11:40 - 12:00"],
+
+    ["12:00 - 12:20"],
+    ["12:20 - 12:40"],
+    ["12:40 - 13:00"],
+
+    ["13:00 - 13:20"],
+    ["13:20 - 13:40"],
+    ["13:40 - 14:00"]
+]
+
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
@@ -13,9 +35,25 @@ def get_db_connection():
 
 def get_doctors():
     conn = get_db_connection()
-    doctors = conn.execute('SELECT * FROM users WHERE role="Doctor"').fetchall()
+    doctors = conn.execute('SELECT * FROM users WHERE role="Doctor" ORDER BY fname, mname, lname').fetchall()
     conn.close()
     return doctors
+
+
+def get_appointments(doctor_id):
+    conn = get_db_connection()
+    appointments = conn.execute('SELECT * FROM appointments WHERE doctor_id=' + doctor_id).fetchall()
+    conn.close()
+    return appointments
+
+
+def get_appointments(doctor_id, dt):
+    conn = get_db_connection()
+    appointments = conn.execute('SELECT * FROM appointments '
+                                'WHERE doctor_id=' + doctor_id +
+                                ' AND appointment_date=' + dt).fetchall()
+    conn.close()
+    return appointments
 
 
 @app.route('/register', methods=['GET'])
@@ -101,6 +139,27 @@ def login_post():
 def logout():
     session.clear()
     return redirect(url_for('login', message='User logged out'))
+
+
+@app.route('/schedule_appointment', methods=['GET'])
+def schedule_appointment():
+    pprint('schedule_appointment')
+    login_status = session.get('login_status')
+    if login_status is None:
+        return render_template('login.html')
+    doctor_id = request.args['doctor_id']
+    conn = get_db_connection()
+    doctor = conn.execute('SELECT * FROM users WHERE id=' + doctor_id).fetchone()
+    conn.close()
+    return render_template('schedule_appointment.html', doctor=doctor, time_slots=time_slots)
+
+
+@app.route('/schedule_appointment', methods=['POST'])
+def schedule_appointment_post():
+    login_status = session.get('login_status')
+    if login_status is None:
+        return render_template('login.html')
+    doctor_id = request.form["doctor_id"]
 
 
 @app.route('/')

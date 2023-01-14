@@ -47,6 +47,48 @@
 <p id="div_message" style="text-align: center; font-size: 20px; color: blue">
 </p>
 
+<h3>Doctors</h3>
+<table class="table">
+    <thead>
+    <th>
+        ID
+    </th>
+    <th>
+        Name
+    </th>
+    <th>
+        Qualification
+    </th>
+    <th>
+        Expertise
+    </th>
+    <th>
+
+    </th>
+    </thead>
+    <tbody>
+    {% for doctor in doctors %}
+    <tr>
+        <th>
+            {{ doctor["id"] }}
+        </th>
+        <td>
+            {{ doctor["fname"] + " " + doctor["mname"] + " " + doctor["lname"]}}
+        </td>
+        <td>
+            {{ doctor["qualification"] }}
+        </td>
+        <td>
+            {{ doctor["expertise"] }}
+        </td>
+        <td>
+            <a href='/schedule_appointment?doctor_id={{ doctor["id"] }}'>schedule appointment</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 <a class="btn" href="/logout">Logout</a>
 
 </body>

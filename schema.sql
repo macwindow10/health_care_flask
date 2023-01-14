@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS appointments;
 
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,3 +20,12 @@ CREATE TABLE users (
     qualification TEXT NULL,
     expertise TEXT NULL
 );
+
+CREATE TABLE appointments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    appointment_date TEXT NOT NULL,
+    appointment_time TEXT NOT NULL,
+    doctor_id INTEGER NOT NULL,
+    patient_id INTEGER NOT NULL
+)
