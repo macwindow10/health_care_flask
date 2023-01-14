@@ -40,20 +40,42 @@ def get_doctors():
     return doctors
 
 
-def get_appointments(doctor_id):
+def get_appointments_by_user(user_id, role):
     conn = get_db_connection()
-    appointments = conn.execute('SELECT * FROM appointments WHERE doctor_id=' + doctor_id).fetchall()
+    if role == 'Patient':
+        appointments = conn.execute(
+            'SELECT a.id, '
+            'a.appointment_date appointment_date, '
+            'a.appointment_time appointment_time, '
+            '(SELECT fname || " " || mname || " " || lname FROM users u WHERE u.id=a.doctor_id) name '
+            'FROM appointments a '
+            'WHERE a.patient_id=' + str(user_id) +
+            ' ORDER BY a.id DESC').fetchall()
+    else:
+        appointments = conn.execute(
+            'SELECT a.id, '
+            'a.appointment_date appointment_date, '
+            'a.appointment_time appointment_time, '
+            '(SELECT fname || " " || mname || " " || lname FROM users u WHERE u.id=a.patient_id) name '
+            'FROM appointments a '
+            'WHERE doctor_id=' + str(user_id) +
+            ' ORDER BY id DESC').fetchall()
     conn.close()
     return appointments
 
 
-def get_appointments(doctor_id, dt):
+def get_appointments(patient_id, doctor_id, appointment_date, appointment_time):
     conn = get_db_connection()
-    appointments = conn.execute('SELECT * FROM appointments '
-                                'WHERE doctor_id=' + doctor_id +
-                                ' AND appointment_date=' + dt).fetchall()
+    appointments = conn.execute(
+        'SELECT * FROM appointments '
+        'WHERE patient_id=' + str(patient_id) +
+        ' AND doctor_id=' + str(doctor_id) +
+        ' AND appointment_date="' + appointment_date + '"' +
+        ' AND appointment_time="' + appointment_time + '"').fetchall()
     conn.close()
-    return appointments
+    if len(appointments) > 0:
+        return True
+    return False
 
 
 @app.route('/register', methods=['GET'])
@@ -130,6 +152,7 @@ def login_post():
     pprint('user found')
     message = 'User logged-in successfully'
     session.__setitem__('login_status', True)
+    session.__setitem__('user_id', user["id"])
     session.__setitem__('role', user["role"])
     session.__setitem__('email', user["email"])
     return redirect(url_for('index', message=message, role=user["role"], email=user["email"]))
@@ -148,10 +171,17 @@ def schedule_appointment():
     if login_status is None:
         return render_template('login.html')
     doctor_id = request.args['doctor_id']
+    if 'message' in request.args:
+        message = request.args['message']
+    else:
+        message = ''
     conn = get_db_connection()
     doctor = conn.execute('SELECT * FROM users WHERE id=' + doctor_id).fetchone()
     conn.close()
-    return render_template('schedule_appointment.html', doctor=doctor, time_slots=time_slots)
+    return render_template('schedule_appointment.html',
+                           doctor=doctor,
+                           time_slots=time_slots,
+                           message=message)
 
 
 @app.route('/schedule_appointment', methods=['POST'])
@@ -159,7 +189,37 @@ def schedule_appointment_post():
     login_status = session.get('login_status')
     if login_status is None:
         return render_template('login.html')
+    patient_id = session.get('user_id')
     doctor_id = request.form["doctor_id"]
+    appointment_date = request.form["appointment_date"]
+    appointment_time = request.form["appointment_time"]
+    appointment_already_exists = get_appointments(patient_id, doctor_id, appointment_date, appointment_time)
+    if appointment_already_exists:
+        return redirect(url_for('schedule_appointment', doctor_id=doctor_id,
+                                message='Appointment already exists on this date and time. '
+                                        'Please select different date or time'))
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO appointments (appointment_date, appointment_time, doctor_id, patient_id) "
+        "VALUES (?, ?, ?, ?)",
+        (appointment_date, appointment_time, doctor_id, patient_id)
+    )
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index', message='Appointment scheduled successfully'))
+
+
+@app.route('/my_appointments')
+def my_appointments():
+    login_status = session.get('login_status')
+    if login_status is None:
+        return render_template('login.html')
+    user_id = session.get('user_id')
+    role = session.get('role')
+    appointments = get_appointments_by_user(user_id, role)
+    return render_template('my_appointments.html', appointments=appointments, role=role)
 
 
 @app.route('/')
