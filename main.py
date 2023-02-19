@@ -1,6 +1,7 @@
 from pprint import pprint
 from flask import Flask, render_template, request, session, redirect, url_for
 import sqlite3
+import json
 
 app = Flask(__name__)
 
@@ -232,7 +233,27 @@ def index():
     if role == 'Patient':
         doctors = get_doctors()
         return render_template('home_patient.html', role=role, email=email, doctors=doctors)
-    return render_template('home_doctor.html', role=role, email=email)
+
+    user_id = session.get('user_id')
+    conn = get_db_connection()
+    total_appointments = conn.execute(
+            'SELECT a.id, '
+            'a.appointment_date appointment_date, '
+            'a.appointment_time appointment_time, '
+            '(SELECT fname || " " || mname || " " || lname FROM users u WHERE u.id=a.patient_id) name '
+            'FROM appointments a '
+            'WHERE doctor_id=' + str(user_id) +
+            ' ORDER BY id DESC').fetchall()
+    data = []
+    for r in total_appointments:
+        data.append(
+            str(r['appointment_date']) + ": " + str(r['name'])
+        )
+    json_total_appointments = json.dumps(data)
+
+    return render_template('home_doctor.html', role=role, email=email,
+                           types_of_diseases=json_total_appointments,
+                           total_appointments=len(data))
 
 
 if __name__ == '__main__':
