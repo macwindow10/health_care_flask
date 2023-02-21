@@ -17,6 +17,11 @@ CREATE TABLE users (
     blood_group TEXT NULL,
     emergency_mobile TEXT NULL,
     payment_mode TEXT NULL,
+    hb TEXT NULL,
+    bmi TEXT NULL,
+    platelets TEXT NULL,
+    bs TEXT NULL,
+    bp TEXT NULL,
     qualification TEXT NULL,
     expertise TEXT NULL
 );

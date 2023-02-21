@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <title>Health Care - Profile</title>
+    <script src="static/js/jquery-3.2.1.js"></script>
+    <script>
+        $(document).ready(function() {
+            var role = '{{ role }}';
+            console.log(role);
+            if (role === 'Doctor') {
+                console.log('d');
+                $('#divPatient').hide();
+                $('#divDoctor').show();
+            } else {
+                $('#divDoctor').hide();
+                $('#divPatient').show();
+            }
+       });
+    </script>
+</head>
+<body>
+
+<div class="jumbotron">
+    <h1>Health Care - {{ role }} Profile</h1>
+</div>
+
+<div class="container-fluid">
+
+    <div class="form-group">
+        <input disabled class="form-control" type="text" name="father_name" value="{{ user.role }}"/>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Email</label>
+        <input disabled class="form-control" type="email" name="email" value="{{ user.email }}"/>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input disabled class="form-control" type="text" name="fname" value="{{ user.fname }}"/>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Middle Name</label>
+        <input disabled class="form-control" type="text" name="mname" value="{{ user.mname }}"/>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input disabled class="form-control" type="text" name="lname" value="{{ user.lname }}"/>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">CNIC</label>
+        <input disabled class="form-control" type="text" name="cnic" value="{{ user.cnic }}"/>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Postal Code</label>
+        <input disabled class="form-control" type="number" name="postal_code" value="{{ user.postal_code }}"/>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Father Name</label>
+        <input disabled class="form-control" type="text" name="father_name" value="{{ user.father_name }}"/>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Gender</label>
+        <input disabled class="form-control" type="text" name="father_name" value="{{ user.gender }}"/>
+    </div>
+
+    <div id="divPatient">
+        <div class="form-group">
+            <label class="form-label">Blood Group</label>
+            <input disabled class="form-control" type="text" name="father_name" value="{{ user.blood_group }}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Emergency Mobile</label>
+            <input disabled class="form-control" type="text" name="emergency_mobile"
+                   value="{{ user.emergency_mobile }}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Payment Mode</label>
+            <input disabled class="form-control" type="text" name="father_name" value="{{ user.payment_mode }}"/>
+        </div>
+
+        <h4>Symptoms & Tests</h4>
+        <div class="form-group">
+            <label class="form-label">Hemoglobin (HB)</label>
+            <input disabled class="form-control" type="text" name="father_name" value="{{ user.hb }}"/>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Body to Mass Index (BMI)</label>
+            <input disabled class="form-control" type="text" name="father_name" value="{{ user.bmi }}"/>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Platelets</label>
+            <input disabled class="form-control" type="text" name="father_name" value="{{ user.platelets }}"/>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Blood Sugar (BS)</label>
+            <input disabled class="form-control" type="text" name="father_name" value="{{ user.bs }}"/>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Blood Pressure (BP) (120/80 mm Hg)</label>
+            <input disabled class="form-control" type="text" name="father_name" value="{{ user.bp }}"/>
+        </div>
+    </div>
+
+    <div id="divDoctor" style="display: none">
+        <div class="form-group">
+            <label class="form-label">Qualification</label>
+            <input disabled class="form-control" type="text" name="qualification" value="{{ user.qualification }}" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Area of Expertise</label>
+            <select class="form-control" id="expertise" name="expertise">
+                <option selected value="MedicalSpecialist">Medical Specialist</option>
+                <option value="Cardiologists">Cardiologists</option>
+                <option value="Dermatologists">Dermatologists</option>
+                <option value="ENT">ENT</option>
+                <option value="Gastroenterologists">Gastroenterologists</option>
+                <option value="Gynecologists">Gynecologists</option>
+                <option value="Pediatricians">Pediatricians</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <a class="btn btn-primary" href="/">Home</a>
+    </div>
+</div>
+
+</body>
+</html>

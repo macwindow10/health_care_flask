@@ -99,6 +99,11 @@ def register_post():
     gender = request.form['gender']
     emergency_mobile = request.form['emergency_mobile']
     payment_mode = request.form['payment_mode']
+    hb = request.form['hb']
+    bmi = request.form['bmi']
+    platelets = request.form['platelets']
+    bs = request.form['bs']
+    bp = request.form['bp']
     qualification = request.form['qualification']
     expertise = request.form['expertise']
     pprint(role)
@@ -111,10 +116,13 @@ def register_post():
     cur = conn.cursor()
     if role == 'Patient':
         cur.execute(
-            "INSERT INTO users (role, email, password, cnic, fname, mname, lname, postal_code, father_name, blood_group, gender, emergency_mobile, payment_mode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (role, email, password, cnic, fname, mname, lname, postal_code, father_name, blood_group, gender,
-             emergency_mobile,
-             payment_mode)
+            "INSERT INTO users (role, email, password, cnic, fname, mname, lname, "
+            "postal_code, father_name, blood_group, gender, emergency_mobile, payment_mode, "
+            "hb, bmi, platelets, bs, bp) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (role, email, password, cnic, fname, mname, lname,
+             postal_code, father_name, blood_group, gender, emergency_mobile, payment_mode,
+             hb, bmi, platelets, bs, bp)
         )
     else:
         cur.execute(
@@ -223,6 +231,19 @@ def my_appointments():
     return render_template('my_appointments.html', appointments=appointments, role=role)
 
 
+@app.route('/profile', methods=['GET'])
+def profile():
+    login_status = session.get('login_status')
+    if login_status is None:
+        return render_template('login.html')
+    user_id = session.get('user_id')
+    role = session.get('role')
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE id=' + str(user_id)).fetchone()
+    conn.close()
+    return render_template('profile.html', role=role, user=user)
+
+
 @app.route('/')
 def index():
     login_status = session.get('login_status')
@@ -237,13 +258,13 @@ def index():
     user_id = session.get('user_id')
     conn = get_db_connection()
     total_appointments = conn.execute(
-            'SELECT a.id, '
-            'a.appointment_date appointment_date, '
-            'a.appointment_time appointment_time, '
-            '(SELECT fname || " " || mname || " " || lname FROM users u WHERE u.id=a.patient_id) name '
-            'FROM appointments a '
-            'WHERE doctor_id=' + str(user_id) +
-            ' ORDER BY id DESC').fetchall()
+        'SELECT a.id, '
+        'a.appointment_date appointment_date, '
+        'a.appointment_time appointment_time, '
+        '(SELECT fname || " " || mname || " " || lname FROM users u WHERE u.id=a.patient_id) name '
+        'FROM appointments a '
+        'WHERE doctor_id=' + str(user_id) +
+        ' ORDER BY id DESC').fetchall()
     data = []
     for r in total_appointments:
         data.append(
@@ -251,7 +272,8 @@ def index():
         )
     json_total_appointments = json.dumps(data)
 
-    return render_template('home_doctor.html', role=role, email=email,
+    return render_template('home_doctor.html',
+                           role=role, email=email,
                            types_of_diseases=json_total_appointments,
                            total_appointments=len(data))
 

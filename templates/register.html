@@ -107,7 +107,16 @@
         <div id="divPatient">
             <div class="form-group">
                 <label class="form-label">Blood Group</label>
-                <input class="form-control" type="text" name="blood_group"/>
+                <select class="form-control" name="blood_group">
+                    <option selected value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -117,7 +126,32 @@
 
             <div class="form-group">
                 <label class="form-label">Payment Mode</label>
-                <input class="form-control" type="text" name="payment_mode"/>
+                <select class="form-control" name="payment_mode">
+                    <option selected value="Credit Card">Credit Card</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <h4>Symptoms & Tests</h4>
+            <div class="form-group">
+                <label class="form-label">Hemoglobin (HB)</label>
+                <input class="form-control" type="text" name="hb"/>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Body to Mass Index (BMI)</label>
+                <input class="form-control" type="text" name="bmi"/>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Platelets</label>
+                <input class="form-control" type="text" name="platelets"/>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Blood Sugar (BS)</label>
+                <input class="form-control" type="text" name="bs"/>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Blood Pressure (BP) (120/80 mm Hg)</label>
+                <input class="form-control" type="text" name="bp"/>
             </div>
         </div>
 
